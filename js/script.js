@@ -40,35 +40,41 @@ function randomNumberBomb(max){
 function createGrill(max){
 
     for (let i = 1; i <= max; i++) {
-        createNewBox(gridContainerHtml, i, buttonReset);
+        createNewBox(gridContainerHtml, i);
     }
 
 }
 
-function createNewBox(container, n, resetPlay) {
+function createNewBox(container, n) {
     const square = document.createElement('div');
     square.className = 'box';
     container.append(square);
+    let indexCurrent = 0;
+
     square.addEventListener('click', function(){
-     
-            //al click, se i numeri presenti nell'array sono inclusi 
-            // nel numero di quadrato selezionato,
-            // allora aggiungi una classe rosso 
-            // altrimenti lascia blu
-            if(listBomb.includes(n)){
-                square.classList.remove('blue'); 
-                square.classList.add("red"); 
-                alert("Mi dispiace, hai perso la partita!!!")
-                const reset = document.createElement('button');
-                reset.className = 'riavvio';
-                resetPlay.append(reset);
-                reset.innerHTML = "Riavvia la partita";
-                
-               
-            } else {
-                square.classList.add("blue");
-                square.classList.remove("red");
-            }
+        // al click, se i numeri presenti nell'array sono inclusi 
+        // nel numero di quadrato selezionato,
+        // allora aggiungi una classe rosso 
+        // altrimenti lascia blu
+        if((listBomb.includes(n))){
+            console.log(indexCurrent)
+            square.classList.remove('blue'); 
+            square.classList.add("red");
+            alert(`Il tuo punteggio è ${indexCurrent}`);
+            // const reset = document.createElement('button');
+            // reset.className = 'riavvio';
+            // resetPlay.append(reset);
+            // reset.innerHTML = "Riavvia la partita";
+            
+            
+        } else {
+            indexCurrent++;
+            square.classList.add("blue");
+            square.classList.remove("red");
+            indexCurrent++;
+        }
+
+    
 
         
 
@@ -79,18 +85,20 @@ function createNewBox(container, n, resetPlay) {
 
 
 
+
 const gridContainerHtml = document.querySelector('.grid-container');
 const buttonEasy = document.querySelector('.easy-difficult');
 const buttonMedium = document.querySelector('.medium-difficult');
 const buttonHard = document.querySelector('.hard-difficult');
 const buttonReset = document.querySelector(".buttons")
 
-buttonEasy.addEventListener('click', function(){
-    gridContainerHtml.innerHTML = "";
-    gridContainerHtml.classList.add("easy");
-    gridContainerHtml.classList.remove("medium", "hard");
-    randomNumberBomb(100);
-    createGrill(100);
+
+    buttonEasy.addEventListener('click', function(){
+        gridContainerHtml.innerHTML = "";
+        gridContainerHtml.classList.add("easy");
+        gridContainerHtml.classList.remove("medium", "hard");
+        randomNumberBomb(100);
+        createGrill(100);
 
 })
 
