@@ -40,34 +40,37 @@ function randomNumberBomb(max){
 function createGrill(max){
 
     for (let i = 1; i <= max; i++) {
-        createNewBox(gridContainerHtml, i);
+        createNewBox(gridContainerHtml, i, buttonReset);
     }
 
 }
 
-function createNewBox(container, n) {
+function createNewBox(container, n, resetPlay) {
     const square = document.createElement('div');
     square.className = 'box';
     container.append(square);
     square.addEventListener('click', function(){
+     
+            //al click, se i numeri presenti nell'array sono inclusi 
+            // nel numero di quadrato selezionato,
+            // allora aggiungi una classe rosso 
+            // altrimenti lascia blu
+            if(listBomb.includes(n)){
+                square.classList.remove('blue'); 
+                square.classList.add("red"); 
+                alert("Mi dispiace, hai perso la partita!!!")
+                const reset = document.createElement('button');
+                reset.className = 'riavvio';
+                resetPlay.append(reset);
+                reset.innerHTML = "Riavvia la partita";
+                
+               
+            } else {
+                square.classList.add("blue");
+                square.classList.remove("red");
+            }
 
-        //al click, se i numeri presenti nell'array sono inclusi 
-        // nel numero di quadrato selezionato,
-        // allora aggiungi una classe rosso 
-        // altrimenti lascia blu
-        if(listBomb.includes(n)){
-            square.classList.remove('blue'); 
-            square.classList.add("red"); 
-            alert("Mi dispiace, hai perso la partita!!!")   
-            // const reset = document.createElement('button');
-            // reset.className = 'riavvio';
-            // buttons.append(reset);
-            // const buttonReset = document.querySelector(".buttons .button.reset")
-            // buttonReset.innerHTML = "RESET PLAY";
-        }else {
-            square.classList.add("blue");
-            square.classList.remove("red");
-        }
+        
 
     })
 }
@@ -76,14 +79,11 @@ function createNewBox(container, n) {
 
 
 
-
-
-
-
 const gridContainerHtml = document.querySelector('.grid-container');
 const buttonEasy = document.querySelector('.easy-difficult');
 const buttonMedium = document.querySelector('.medium-difficult');
 const buttonHard = document.querySelector('.hard-difficult');
+const buttonReset = document.querySelector(".buttons")
 
 buttonEasy.addEventListener('click', function(){
     gridContainerHtml.innerHTML = "";
@@ -109,4 +109,6 @@ buttonHard.addEventListener('click', function(){
     randomNumberBomb(49);
     createGrill(49);
 })
+
+
 
