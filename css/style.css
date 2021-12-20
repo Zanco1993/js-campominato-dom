@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.buttons {
+    text-align: center;
+}
+
+.easy-difficult, .medium-difficult, .hard-difficult {
+    padding: 10px;
+    margin: 10px;
+}
+
+.grid-container {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid-container.easy{
+    width: 1000px;
+}
+
+.grid-container.medium{
+    width: 900px;
+}
+
+.grid-container.hard{
+    width: 700px;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    border: 2px solid black;
+    text-align: center;
+    line-height: 100px;
+}
+
+.num-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.box.blue {
+    background-color: lightskyblue;
+}
