@@ -24,7 +24,7 @@ function random(min, max){
     return Math.floor(Math.random() * ((max + 1) - min)) + min
 }
 
-function createNewBox(container) {
+function createNewBox(container, n) {
     const square = document.createElement('div');
     square.className = 'box';
     container.append(square);
@@ -34,10 +34,13 @@ function createNewBox(container) {
         // nel numero di quadrato selezionato,
         // allora aggiungi una classe rosso 
         // altrimenti lascia blu
-        if(listBomb.includes(this)){
-            console.log(i);
+        if(listBomb.includes(n)){
+            console.log(n);
             square.classList.remove('blue'); 
             square.classList.add("red");    
+        }else {
+            square.classList.add("blue");
+            square.classList.remove("red");
         }
 
     })
@@ -62,7 +65,7 @@ function randomNumberBomb(max){
 function createGrill(max){
 
     for (let i = 1; i <= max; i++) {
-        createNewBox(gridContainerHtml);
+        createNewBox(gridContainerHtml, i);
     }
 
 }
