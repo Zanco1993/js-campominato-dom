@@ -24,6 +24,27 @@ function random(min, max){
     return Math.floor(Math.random() * ((max + 1) - min)) + min
 }
 
+const listBomb = [];
+function randomNumberBomb(max){
+
+    while (listBomb.length < 16) {
+        let randomNum = random(1, max);
+        if(!listBomb.includes(randomNum)) {
+            listBomb.push(randomNum);
+            console.log(randomNum);
+        }
+    }
+}
+
+
+function createGrill(max){
+
+    for (let i = 1; i <= max; i++) {
+        createNewBox(gridContainerHtml, i);
+    }
+
+}
+
 function createNewBox(container, n) {
     const square = document.createElement('div');
     square.className = 'box';
@@ -35,9 +56,14 @@ function createNewBox(container, n) {
         // allora aggiungi una classe rosso 
         // altrimenti lascia blu
         if(listBomb.includes(n)){
-            console.log(n);
             square.classList.remove('blue'); 
-            square.classList.add("red");    
+            square.classList.add("red"); 
+            alert("Mi dispiace, hai perso la partita!!!")   
+            // const reset = document.createElement('button');
+            // reset.className = 'riavvio';
+            // buttons.append(reset);
+            // const buttonReset = document.querySelector(".buttons .button.reset")
+            // buttonReset.innerHTML = "RESET PLAY";
         }else {
             square.classList.add("blue");
             square.classList.remove("red");
@@ -48,27 +74,7 @@ function createNewBox(container, n) {
     
 
 
-const listBomb = [];
-function randomNumberBomb(max){
 
-    while (listBomb.length < 16) {
-        let randomNum = random(1, max);
-        if(!listBomb.includes(randomNum)) {
-            listBomb.push(randomNum);
-            console.log(randomNum);
-        }
-    }
-    return listBomb;
-}
-
-
-function createGrill(max){
-
-    for (let i = 1; i <= max; i++) {
-        createNewBox(gridContainerHtml, i);
-    }
-
-}
 
 
 
@@ -92,6 +98,7 @@ buttonMedium.addEventListener('click', function(){
     gridContainerHtml.innerHTML = "";
     gridContainerHtml.classList.add("medium");
     gridContainerHtml.classList.remove("easy", "hard");
+    randomNumberBomb(81);
     createGrill(81);
 })
 
@@ -99,6 +106,7 @@ buttonHard.addEventListener('click', function(){
     gridContainerHtml.innerHTML = "";
     gridContainerHtml.classList.add("hard");
     gridContainerHtml.classList.remove("medium", "easy");
+    randomNumberBomb(49);
     createGrill(49);
 })
 
