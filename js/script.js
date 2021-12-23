@@ -20,81 +20,118 @@ Al termine della partita il software deve comunicare il punteggio, cioè il nume
 BONUS: quando si clicca su una bomba e finisce la partita, il software scopre tutte le bombe nascoste
 */
 
-function random(min, max){
-    return Math.floor(Math.random() * ((max + 1) - min)) + min
+function reset(){
+    gridContainerHtml.innerHTML = "";
+
 }
 
-const listBomb = [];
-function randomNumberBomb(max){
+function random(min, max){
+    return Math.floor(Math.random() * ((max + 1) - min)) + min;
+}
 
+
+function randomNumberBomb(max){
+    const listBomb = [];
     while (listBomb.length < 16) {
-        let randomNum = random(1, max);
+        let randomNum = random(1, max); //numero randomico da 1 a valore caselle per difficoltà
         if(!listBomb.includes(randomNum)) {
             listBomb.push(randomNum);
-            console.log(randomNum);
         }
     }
+    return listBomb; // il return serve per far vedere all'esterno il valore
+                     // altrimenti sarebbe undefined!!!
 }
 
-function createGrill(max){
-    for (let i = 1; i <= max; i++) {
-        createNewBox(gridContainerHtml, i);
+
+function gameOver(isWin, score, container) {
+    const modal = document.createElement('div');
+    modal.className = 'gameOver';
+    if(isWin){
+        modal.classList.add('winner');
+        modal.innerText = 'Hai vinto ';
+    } else {
+        modal.classList.add('loser');
+        modal.innerText = 'Hai perso ';
     }
+
+    modal.innerText += `il tuo punteggio è: ${score}`;
+
+    // creo un bottone ricomincia e facciamo in modo di resettare il gioco
+    const button = document.createElement('button');
+    button.innerText = 'Ricomincia';
+    button.addEventListener('click', reset);
+
+    modal.append(button);
+    container.append(modal);
 }
 
-function createNewBox(container, n) {
-    const square = document.createElement('div');
-    square.className = 'box';
-    square.innerText = n;
-    container.append(square);
+
+function createGrill(max, container, bombFunction){
+
     let indexCurrent = 0;
+    const bombs = bombFunction(max); 
+    console.log(bombs)
+    
+    for (let i = 1; i <= max; i++) {
+        // dichiaro la costante bombs che rappresenta l'array listBomb
+        // della funzione randomNumberBomb
 
-    square.addEventListener('click', function(){
-        
-        if((listBomb.includes(n))){
-            console.log(indexCurrent)
-            square.classList.remove('blue'); 
-            square.classList.add("red");
-        } else {
-            indexCurrent++;
-            square.classList.add("blue");
-            square.classList.remove("red");
-            indexCurrent++;
-        }
-    })
+        // creo il div con class box e con innerText segniamo il numero casella
+        const square = document.createElement('div');
+        square.className = 'box';
+        square.innerText = i;
+        container.append(square);
+    
+        square.addEventListener('click', function(){ 
+            if(bombs.includes(i)){
+                square.classList.add("red");
+                gameOver(false, indexCurrent, container)
+
+            } else {
+                square.classList.add("blue");
+                indexCurrent++;
+
+                // se il numero di click è uguale al numero consentito di click,
+                // allora l'utente ha vinto
+                if(indexCurrent === max - 16) {
+                    gameOver(true, indexCurrent, container);
+                }
+                
+            }
+        })
+    
+    }
 }
+
+
+
     
 
 const buttonEasy = document.querySelector('.easy-difficult');
 const buttonMedium = document.querySelector('.medium-difficult');
 const buttonHard = document.querySelector('.hard-difficult');
 const buttonReset = document.querySelector(".buttons");
-
 const gridContainerHtml = document.getElementById('grid-container');
 
 // pulsante difficoltà facile
 buttonEasy.addEventListener('click', function(){
     gridContainerHtml.className = 'easy';
     gridContainerHtml.innerText = ''; 
-    createGrill(100);
-    randomNumberBomb(100);
-
+    createGrill(100, gridContainerHtml, randomNumberBomb);
 })
 
 // pulsante difficoltà media
 buttonMedium.addEventListener('click', function(){
     gridContainerHtml.className = 'medium';
     gridContainerHtml.innerText = '';
-    createGrill(81);
-    randomNumberBomb(81);
+    createGrill(81, gridContainerHtml, randomNumberBomb);
 })
 
 // pulsante difficoltà difficile
 buttonHard.addEventListener('click', function(){
     gridContainerHtml.className = 'hard';
     gridContainerHtml.innerText = '';
-    createGrill(49);
-    randomNumberBomb(49);
+    createGrill(49, gridContainerHtml, randomNumberBomb);
 })
 
 
