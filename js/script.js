@@ -36,86 +36,65 @@ function randomNumberBomb(max){
     }
 }
 
-
 function createGrill(max){
-
     for (let i = 1; i <= max; i++) {
         createNewBox(gridContainerHtml, i);
     }
-
 }
 
 function createNewBox(container, n) {
     const square = document.createElement('div');
     square.className = 'box';
+    square.innerText = n;
     container.append(square);
     let indexCurrent = 0;
 
     square.addEventListener('click', function(){
-        // al click, se i numeri presenti nell'array sono inclusi 
-        // nel numero di quadrato selezionato,
-        // allora aggiungi una classe rosso 
-        // altrimenti lascia blu
+        
         if((listBomb.includes(n))){
             console.log(indexCurrent)
             square.classList.remove('blue'); 
             square.classList.add("red");
-            alert(`Il tuo punteggio è ${indexCurrent}`);
-            // const reset = document.createElement('button');
-            // reset.className = 'riavvio';
-            // resetPlay.append(reset);
-            // reset.innerHTML = "Riavvia la partita";
-            
-            
         } else {
             indexCurrent++;
             square.classList.add("blue");
             square.classList.remove("red");
             indexCurrent++;
         }
-
-    
-
-        
-
     })
 }
     
 
-
-
-
-
-const gridContainerHtml = document.querySelector('.grid-container');
 const buttonEasy = document.querySelector('.easy-difficult');
 const buttonMedium = document.querySelector('.medium-difficult');
 const buttonHard = document.querySelector('.hard-difficult');
-const buttonReset = document.querySelector(".buttons")
+const buttonReset = document.querySelector(".buttons");
 
+const gridContainerHtml = document.getElementById('grid-container');
 
-    buttonEasy.addEventListener('click', function(){
-        gridContainerHtml.innerHTML = "";
-        gridContainerHtml.classList.add("easy");
-        gridContainerHtml.classList.remove("medium", "hard");
-        randomNumberBomb(100);
-        createGrill(100);
+// pulsante difficoltà facile
+buttonEasy.addEventListener('click', function(){
+    gridContainerHtml.className = 'easy';
+    gridContainerHtml.innerText = ''; 
+    createGrill(100);
+    randomNumberBomb(100);
 
 })
 
+// pulsante difficoltà media
 buttonMedium.addEventListener('click', function(){
-    gridContainerHtml.innerHTML = "";
-    gridContainerHtml.classList.add("medium");
-    gridContainerHtml.classList.remove("easy", "hard");
-    randomNumberBomb(81);
+    gridContainerHtml.className = 'medium';
+    gridContainerHtml.innerText = '';
     createGrill(81);
+    randomNumberBomb(81);
 })
 
+// pulsante difficoltà difficile
 buttonHard.addEventListener('click', function(){
-    gridContainerHtml.innerHTML = "";
-    gridContainerHtml.classList.add("hard");
-    gridContainerHtml.classList.remove("medium", "easy");
-    randomNumberBomb(49);
+    gridContainerHtml.className = 'hard';
+    gridContainerHtml.innerText = '';
     createGrill(49);
+    randomNumberBomb(49);
 })
 
 
